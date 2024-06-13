@@ -17,8 +17,6 @@ class DriverSeeder extends Seeder
     public function run(): void
     {
         $drivers = User::where('role_id', Role::ROLES['driver'])->get();
-//        dd($drivers);
-//        dd(Role::ROLES['driver']);
 
         if ($drivers->isEmpty()) {
             throw new \Exception('Nenhum motorista cadastrado para que DriverSeeder seja executado!');
@@ -27,8 +25,8 @@ class DriverSeeder extends Seeder
         foreach ($drivers as $driver) {
             Driver::factory()->create([
                 'user_id' => $driver->id,
-                'online' => false,
-                'in_run' => false
+                'online' => rand(0, 1),
+                'in_run' => rand(0, 1)
             ]);
         }
     }

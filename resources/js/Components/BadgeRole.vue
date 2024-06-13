@@ -5,8 +5,8 @@
 <script setup>
 
 const roles = {
-  1: 'Administrador',
-  2: 'Operador',
+  2: 'Administrador',
+  3: 'Operador',
 }
 
 const props = defineProps({

@@ -14,14 +14,16 @@ class Role extends Model
     protected $fillable = ['role'];
 
     const ROLES = [
-        'administrator' => 1,
-        'operator'      => 2,
-        'driver'        => 3
+        'developer'     => 1,
+        'administrator' => 2,
+        'operator'      => 3,
+        'driver'        => 4
     ];
     const ROLES_SLUG = [
-        1 => 'administrator',
-        2 => 'operator',
-        3 => 'driver'
+        1 => 'developer',
+        2 => 'administrator',
+        3 => 'operator',
+        4 => 'driver'
     ];
 
     public function users()

@@ -36,4 +36,13 @@ class UserStoreRequest extends FormRequest
             'role_id' => 'roles',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'O campo nome é obrigatório',
+            'email.required' => 'O campo e-mail é obrigatório',
+            'role_id.required' => 'O campo perfil é obrigatório',
+        ];
+    }
 }

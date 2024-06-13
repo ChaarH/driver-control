@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Company;
 use App\Models\Role;
+use App\Traits\AvatarGeneratorTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +15,7 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
+    use AvatarGeneratorTrait;
     /**
      * The current password being used by the factory.
      */
@@ -27,8 +29,8 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $roles     = Role::whereIn('slug', ['operator', 'driver'])->get();
-        $companies = Company::all();
+        $roles     = Role::whereIn('slug', ['administrator', 'operator', 'driver'])->get();
+        $companies = Company::where('name', '!=', 'weCode')->get();
 
         if ($roles->isEmpty() || $companies->isEmpty()) {
             throw new \Exception('Erro ao executar UserFactory!');
@@ -37,10 +39,15 @@ class UserFactory extends Factory
         $random_role    = $roles->random();
         $random_company = $companies->random();
 
+        $user_name = fake()->name();
+
+        $avatar = $this->generateLink($user_name);
+
         return [
-            'name'              => fake()->name(),
+            'name'              => $user_name,
             'email'             => fake()->unique()->safeEmail(),
             'role_id'           => $random_role->id,
+            'avatar'            => $avatar,
             'company_id'        => $random_company->id,
             'email_verified_at' => now(),
             'password'          => Hash::make('password'),

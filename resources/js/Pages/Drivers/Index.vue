@@ -3,9 +3,7 @@
 
   <AuthenticatedLayout>
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Usuários
-      </h2>
+      <DriversStatusRun />
     </template>
     <div class="bg-gray-100 py-10">
       <div class="mx-auto max-w-7xl">
@@ -43,6 +41,25 @@
                   class="block rounded-lg border-0 py-2 pl-10 text-gray-900 ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
+          </div>
+
+          <div class="border-b border-gray-300 dark:border-gray-300">
+            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+              <li class="me-2">
+                <a href="#" class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                    <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                  </svg>Motoristas ativos
+                </a>
+              </li>
+              <li class="me-2">
+                <a href="#" class="inline-flex items-center justify-center p-4 rounded-t-lg dark:text-blue-500 dark:border-blue-500 group" aria-current="page">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                    <path fill-rule="evenodd" d="m5.965 4.904 9.131 9.131a6.5 6.5 0 0 0-9.131-9.131Zm8.07 10.192L4.904 5.965a6.5 6.5 0 0 0 9.131 9.131ZM4.343 4.343a8 8 0 1 1 11.314 11.314A8 8 0 0 1 4.343 4.343Z" clip-rule="evenodd" />
+                  </svg>Motoristas inativos
+                </a>
+              </li>
+            </ul>
           </div>
 
           <div class="mt-8 flex flex-col">
@@ -117,9 +134,12 @@
                         {{ user_driver.id }}
                       </td>
                       <td
-                          class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
+                          class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 flex"
                       >
-                        {{ user_driver.user.name }}
+                        <img class="w-7 h-7 rounded-full" :src="user_driver.user.avatar" alt="Rounded avatar">
+                        <span class="pl-2 pt-1">
+                          {{ user_driver.user.name }}
+                        </span>
                       </td>
                       <td
                           class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
@@ -183,6 +203,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router, useForm, usePage } from "@inertiajs/vue3";
 import { ref, watch, computed } from "vue";
 import BadgeBoolean from "@/Components/BadgeBoolean.vue";
+import DriversStatusRun from "@/Components/DriversStatusRun.vue";
 
 defineProps({
   users_drivers: {

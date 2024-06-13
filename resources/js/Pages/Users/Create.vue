@@ -2,10 +2,9 @@
   <Head title="Usuários" />
 
   <AuthenticatedLayout>
+    {{ roles }}
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Usuário
-      </h2>
+      <DriversStatusRun />
     </template>
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
       <div class="lg:grid lg:grid-cols-12 lg:gap-x-5">
@@ -17,7 +16,7 @@
                   <h3
                       class="text-lg leading-6 font-medium text-gray-900"
                   >
-                    Detalhes do Usuário
+                    Cadastrar novo Usuário
                   </h3>
                 </div>
 
@@ -74,7 +73,7 @@
                         :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.role_id,}"
                     >
                       <option value="">
-                        Select a Class
+                        Selecione um perfil
                       </option>
                       <option
                           v-for="item in roles.data"
@@ -98,13 +97,14 @@
                     :href="route('users.index')"
                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-4"
                 >
-                  Cancel
+                  Cancelar
                 </Link>
                 <button
                     type="submit"
+                    :disabled="form.processing"
                     class="bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  Save
+                  Salvar
                 </button>
               </div>
             </div>
@@ -121,14 +121,15 @@ import { Head, Link, useForm } from "@inertiajs/vue3";
 import { watch, ref } from "vue";
 import axios from "axios";
 import InputError from "@/Components/InputError.vue";
+import DriversStatusRun from "@/Components/DriversStatusRun.vue";
 
 defineProps({
-  classes: {
+  roles: {
     type: Object,
   },
 });
 
-let sections = ref({});
+let roles = ref({});
 
 const form = useForm({
   name: "",
@@ -137,16 +138,19 @@ const form = useForm({
 });
 
 watch(
-    () => form.class_id,
+    () => form.role_id,
     (newValue) => {
-      getSections(newValue);
+      getRoles(newValue);
     }
 );
 
-const getSections = (class_id) => {
-  axios.get("/api/sections?class_id=" + class_id).then((response) => {
-    sections.value = response.data;
+const getRoles = (class_id) => {
+  axios.get("/api/roles").then((response) => {
+    console.log(response.data)
+    roles.value = response.data;
   });
+
+  console.log(roles.value)
 };
 
 const submit = () => {

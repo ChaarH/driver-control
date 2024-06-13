@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UserStoreRequest;
+use App\Http\Resources\RoleResource;
 use App\Http\Resources\UserResource;
 use App\Models\Role;
 use App\Models\User;
@@ -16,17 +17,18 @@ class UserController extends Controller
 
         $userQuery = $this->applySearch($userQuery, request('search'));
 
-        return inertia('Users/Index', [
-            'users' => UserResource::collection(
-                $userQuery->whereIn('role_id', [
-                    Role::ROLES['administrator'],
-                    Role::ROLES['operator']
-                ])
-                    ->withTrashed()
-                    ->paginate(config('constants.pagination_rules.number_of_rows'))
-            ),
-            'search' => request('search') ?? ''
-        ]);
+        $search = request('search') ?? '';
+
+        $users = UserResource::collection(
+            $userQuery->whereIn('role_id', [
+                Role::ROLES['administrator'],
+                Role::ROLES['operator']
+            ])
+                ->withTrashed()
+                ->paginate(config('constants.pagination_rules.number_of_rows'))
+        );
+
+        return inertia('Users/Index', compact('users', 'search'));
     }
 
     protected function applySearch(Builder $query, $search)
@@ -38,18 +40,9 @@ class UserController extends Controller
 
     public function create()
     {
-//        $classes = ClassResource::collection();
+        $roles = RoleResource::collection(Role::all());
 
-        $roles = collect([
-            [
-                'id' => 1,
-                'role' => 'Administrador'
-            ]
-        ]);
-
-        return inertia('Users/Create', [
-            'roles' => $roles
-        ]);
+        return inertia('Users/Create', compact('roles'));
     }
 
     public function store(UserStoreRequest $request)

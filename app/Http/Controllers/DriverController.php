@@ -14,17 +14,20 @@ class DriverController extends Controller
 {
     public function index()
     {
-        $userQuery = Driver::query();
+        $driverQuery = Driver::query();
 
-        $userQuery = $this->applySearch($userQuery, request('search'));
+        $driverQuery = $this->applySearch($driverQuery, request('search'));
 
-        return inertia('Drivers/Index', [
-            'users_drivers' => DriverResource::collection(
-                $userQuery->with('user')
-                    ->paginate(config('constants.pagination_rules.number_of_rows'))
-            ),
-            'search' => request('search') ?? ''
-        ]);
+        // TODO
+        // LISTAR USER-DRIVER WITH TRASHED
+
+        $search  = request('search') ?? '';
+        $users_drivers = DriverResource::collection(
+            $driverQuery->with('user')
+                ->paginate(config('constants.pagination_rules.number_of_rows'))
+        );
+
+        return inertia('Drivers/Index', compact('users_drivers', 'search'));
     }
 
     protected function applySearch(Builder $query, $search)
@@ -39,7 +42,7 @@ class DriverController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Drivers/Create');
     }
 
     /**
@@ -55,7 +58,7 @@ class DriverController extends Controller
      */
     public function show(Driver $driver)
     {
-        //
+
     }
 
     /**
@@ -63,7 +66,12 @@ class DriverController extends Controller
      */
     public function edit(Driver $driver)
     {
-        //
+        $driver = Driver::with('user')
+            ->where('id', $driver->id)
+            ->first();
+
+        $driver = DriverResource::make($driver);
+        return inertia('Drivers/Edit', compact('driver'));
     }
 
     /**

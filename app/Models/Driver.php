@@ -20,6 +20,8 @@ class Driver extends Model
         'in_run'
     ];
 
+    protected $with = ['user'];
+
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'user_id');

@@ -3,6 +3,6 @@
 
 return [
     'pagination_rules' => [
-        'number_of_rows' => 10
+        'number_of_rows' => 5
     ]
 ];

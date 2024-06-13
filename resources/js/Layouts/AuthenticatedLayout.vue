@@ -1,15 +1,3 @@
-<script setup>
-import { ref } from 'vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
-
-const showingNavigationDropdown = ref(false);
-</script>
-
 <template>
     <div>
         <div class="min-h-screen bg-gray-100">
@@ -30,13 +18,19 @@ const showingNavigationDropdown = ref(false);
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                  <a href="#" class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg group">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
-                                      <path d="M12 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-1ZM6.5 6a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1V6ZM2 9a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V9Z" />
-                                    </svg>Dashboard
-                                  </a>
+                                  <MenuDashboardIcon />Dashboard
                                 </NavLink>
                             </div>
+
+                          <NavLink
+                              :href="route('companies.index')"
+                              :active="
+                              route().current('companies.index') ||
+                              route().current('companies.create') ||
+                              route().current('companies.edit')"
+                          >
+                            <MenuCompanyIcon />Empresas
+                          </NavLink>
 
                           <NavLink
                               :href="route('users.index')"
@@ -45,9 +39,7 @@ const showingNavigationDropdown = ref(false);
                               route().current('users.create') ||
                               route().current('users.edit')"
                           >
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
-                              <path d="M8.5 4.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10.9 12.006c.11.542-.348.994-.9.994H2c-.553 0-1.01-.452-.902-.994a5.002 5.002 0 0 1 9.803 0ZM14.002 12h-1.59a2.556 2.556 0 0 0-.04-.29 6.476 6.476 0 0 0-1.167-2.603 3.002 3.002 0 0 1 3.633 1.911c.18.522-.283.982-.836.982ZM12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
-                            </svg>Usuários
+                            <MenuUserIcon />Usuários
                           </NavLink>
 
                           <NavLink
@@ -57,7 +49,37 @@ const showingNavigationDropdown = ref(false);
                               route().current('drivers.create') ||
                               route().current('drivers.edit')"
                           >
-                            Motoristas
+                            <MenuDriverIcon />Motoristas
+                          </NavLink>
+
+                          <NavLink
+                              :href="route('runs.index')"
+                              :active="
+                              route().current('runs.index') ||
+                              route().current('runs.create') ||
+                              route().current('runs.edit')"
+                          >
+                            <MenuRunIcon />Atendimentos
+                          </NavLink>
+
+                          <NavLink
+                              :href="route('settings.index')"
+                              :active="
+                              route().current('settings.index') ||
+                              route().current('settings.create') ||
+                              route().current('settings.edit')"
+                          >
+                            <MenuSettingIcon />Configurações
+                          </NavLink>
+
+                          <NavLink
+                              :href="route('reports.index')"
+                              :active="
+                              route().current('reports.index') ||
+                              route().current('reports.create') ||
+                              route().current('reports.edit')"
+                          >
+                            <MenuReportIcon />Relatórios
                           </NavLink>
                         </div>
 
@@ -90,9 +112,9 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
+                                        <DropdownLink :href="route('profile.edit')">Perfil </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
-                                            Log Out
+                                            Sair
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>
@@ -176,3 +198,25 @@ const showingNavigationDropdown = ref(false);
         </div>
     </div>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import Dropdown from '@/Components/Dropdown.vue';
+import DropdownLink from '@/Components/DropdownLink.vue';
+import NavLink from '@/Components/NavLink.vue';
+import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import { Link } from '@inertiajs/vue3';
+import MenuDriverIcon from "@/Components/Icons/MenuIcons/MenuDriverIcon.vue";
+import MenuUserIcon from "@/Components/Icons/MenuIcons/MenuUserIcon.vue";
+import MenuDashboardIcon from "@/Components/Icons/MenuIcons/MenuDashboardIcon.vue";
+import MenuSettingIcon from "@/Components/Icons/MenuIcons/MenuSettingIcon.vue";
+import Footer from "@/Components/Footer.vue";
+import MenuReportIcon from "@/Components/Icons/MenuIcons/MenuReportIcon.vue";
+import MenuCompanyIcon from "@/Components/Icons/MenuIcons/MenuCompanyIcon.vue";
+import MenuRunIcon from "@/Components/Icons/MenuIcons/MenuRunIcon.vue";
+
+const showingNavigationDropdown = ref(false);
+
+
+</script>

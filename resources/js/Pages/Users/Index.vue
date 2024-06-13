@@ -49,14 +49,14 @@
                 <a href="#" class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                     <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-                  </svg>Ativos
+                  </svg>Usuários ativos
                 </a>
               </li>
               <li class="me-2">
                 <a href="#" class="inline-flex items-center justify-center p-4 rounded-t-lg dark:text-blue-500 dark:border-blue-500 group" aria-current="page">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                     <path fill-rule="evenodd" d="m5.965 4.904 9.131 9.131a6.5 6.5 0 0 0-9.131-9.131Zm8.07 10.192L4.904 5.965a6.5 6.5 0 0 0 9.131 9.131ZM4.343 4.343a8 8 0 1 1 11.314 11.314A8 8 0 0 1 4.343 4.343Z" clip-rule="evenodd" />
-                  </svg>Inativos
+                  </svg>Usuários inativos
                 </a>
               </li>
             </ul>
@@ -89,12 +89,6 @@
                           class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                       >
                         Name
-                      </th>
-                      <th
-                          scope="col"
-                          class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                      >
-                        Email
                       </th>
                       <th
                           scope="col"
@@ -137,12 +131,13 @@
                       <td
                           class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
                       >
-                        {{ user.name }}
-                      </td>
-                      <td
-                          class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                      >
-                        {{ user.email }}
+                        <div class="flex">
+                          <img class="w-7 h-7 rounded-full" :src="user.avatar" alt="Rounded avatar">
+                          <span class="pl-2 pt-1">
+                            {{ user.name }}
+                          </span>
+                        </div>
+                        <span class="pl-9 text-sm text-gray-400">{{ user.email }}</span>
                       </td>
                       <td
                           class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"

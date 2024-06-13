@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Faker\Provider\pt_BR\Company;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Company>
@@ -28,7 +29,12 @@ class CompanyFactory extends Factory
         return [
             'name'       => $company_name,
             'logo'       => $logo,
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now(),
+            'address'    => fake()->address(),
+            'city'       => fake()->city(),
+            'cep'        => fake()->postcode(),
+            'phone_1'    => fake()->phoneNumber(),
+            'phone_2'    => fake()->phoneNumber(),
         ];
     }
 }

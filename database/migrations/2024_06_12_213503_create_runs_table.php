@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('runs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained('companies');
+            $table->foreignId('driver_id')->constrained('drivers');
+            $table->double('price', 2);
+            $table->string('city_from')->nullable();
+            $table->string('city_to')->nullable();
+            $table->string('district_from')->nullable();
+            $table->string('district_to')->nullable();
+            $table->string('address_from')->nullable();
+            $table->string('address_to')->nullable();
+            $table->timestamp('started_at')->default(now());
+            $table->timestamp('ended_at')->default(now());
             $table->timestamps();
         });
     }

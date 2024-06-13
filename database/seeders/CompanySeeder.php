@@ -22,6 +22,10 @@ class CompanySeeder extends Seeder
             [
                 'name'       => 'weCode',
                 'logo'       => $logo,
+                'address'    => 'Avenida Getúlio Vargas, 2086',
+                'city'       => 'São Lourenço',
+                'cep'        => '37470-000',
+                'phone_1'    => '(35) 9 9266-3351',
                 'created_at' => Carbon::now()
             ]
         ];

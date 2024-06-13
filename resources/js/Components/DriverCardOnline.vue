@@ -1,10 +1,12 @@
 <template>
-  <div class="py-8 px-8 max-w-md bg-white rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6 mb-2 border-red-800">
-    <img class="block mx-auto h-24 rounded-full sm:mx-0 sm:shrink-0" :src="props.avatar">
-    <div class="text-center space-y-2 sm:text-left">
+  <div :class="dinamicBorder">
+    <div class="">
+      <img class="block mx-auto h-18 rounded-full sm:mx-0 sm:shrink-0" :src="props.avatar">
+    </div>
+    <div class="text-center space-y-2 sm:text-left w-3/4">
       <div class="space-y-0.5">
         <p class="text-lg text-black font-semibold">
-          {{ props.name }}
+          {{ formattedDriverName }}
         </p>
         <div class="inline-flex">
         <span class="relative flex h-3 w-3">
@@ -14,8 +16,32 @@
         </div>
         <span class="font-light text-xs pl-2">{{ driverStatus }}</span>
       </div>
-      <button v-if="props.online && !props.in_run" class="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-3 py-1 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto">Selecionar</button>
-      <button v-if="props.online && props.in_run" class="inline-flex items-center justify-center rounded-md border border-transparent bg-green-400 px-3 py-1 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:w-auto">Liberar</button>
+      <div class="w-full flex">
+        <div class="pt-1 w-2/4">
+          <button v-if="props.online && !props.in_run" class="inline-flex items-center justify-center text-xs rounded-md border border-transparent bg-blue-600 px-3 py-1 font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto">Iniciar corrida</button>
+          <button v-else class="inline-flex items-center justify-center text-xs rounded-md border border-transparent bg-green-400 px-3 py-1 font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:w-auto">Liberar</button>
+        </div>
+        <div class="flex w-2/4 justify-end text-xs">
+          <ul class="text-gray-700 flex items-center justify-between float-right w-full">
+            <li class="flex flex-col items-center justify-around text-gray-700">
+              <StarsIcon />
+              <div>4.5</div>
+            </li>
+            <li class="flex flex-col items-center justify-around text-gray-700">
+              <TruckIcon />
+              <div>2k</div>
+            </li>
+            <li class="flex flex-col items-center justify-around text-gray-700">
+              <ThumbsUpIcon />
+              <div>10k</div>
+            </li>
+            <li class="flex flex-col items-center justify-around text-gray-700">
+              <ThumbsDownIcon />
+              <div>15</div>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -27,6 +53,7 @@ import ThumbsUpIcon from "@/Components/Icons/ThumbsUpIcon.vue";
 import ThumbsDownIcon from "@/Components/Icons/ThumbsDownIcon.vue";
 import StarsIcon from "@/Components/Icons/StarsIcon.vue";
 import MenuDriverIcon from "@/Components/Icons/MenuIcons/MenuDriverIcon.vue";
+import TruckIcon from "@/Components/Icons/TruckIcon.vue";
 
 const props = defineProps({
   name: {
@@ -43,6 +70,14 @@ const props = defineProps({
   }
 })
 
+const formattedDriverName = computed(() => {
+  let split_name = props.name.split(' ')
+
+  return split_name.length > 1
+    ? `${split_name[0]} ${split_name[1]}`
+    : split_name[0]
+})
+
 const driverStatus = computed(() => {
   return props.online && props.in_run
     ? 'Ocupado' : 'Disponível'
@@ -52,6 +87,12 @@ const bagdeDriverStatus = computed(() => {
   return props.online && !props.in_run
       ? { badge_1 : 'animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75', bagde_2: 'relative inline-flex rounded-full h-3 w-3 bg-green-400' }
       : { badge_1 : 'absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75', bagde_2: 'relative inline-flex rounded-full h-3 w-3 bg-red-400' }
+})
+
+const dinamicBorder = computed(() => {
+  return props.online && !props.in_run
+      ? 'py-8 px-8 bg-white rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6 mb-2 w-96 border border-green-400 opacity-75'
+      : 'py-8 px-8 bg-white rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6 mb-2 w-96 border border-red-400 opacity-75'
 })
 
 </script>

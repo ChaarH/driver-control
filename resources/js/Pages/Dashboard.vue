@@ -28,10 +28,12 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
               <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-3">Motoristas online</h2>
               <div class="flex flex-wrap justify-between">
-                <div v-for="driver_available in drivers_available.data" :key="driver_available.id" class="">
+                <div v-if="drivers_available.data.length > 0" v-for="driver_available in drivers_available.data" :key="driver_available.id" class="">
                   <DriverCardOnline :name="driver_available.user.name" :online="driver_available.online" :in_run="driver_available.in_run" :avatar="driver_available.user.avatar" />
                 </div>
-
+                <div v-else class="flex justify-center text-center">
+                  <h3 class="text-gray-500">No momento, todos os motoristas estão offline.</h3>
+                </div>
               </div>
             </div>
         </div>
@@ -40,8 +42,11 @@
           <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-3">Motoristas offline</h2>
             <div class="flex flex-wrap justify-between">
-              <div v-for="drivers_offline in drivers_offline.data" :key="drivers_offline.id">
+              <div v-if="drivers_offline.data.length > 0" v-for="drivers_offline in drivers_offline.data" :key="drivers_offline.id">
                 <DriverCardOffline :name="drivers_offline.user.name" :online="drivers_offline.online" :in_run="drivers_offline.in_run" :avatar="drivers_offline.user.avatar" />
+              </div>
+              <div v-else class="flex justify-center text-center">
+                <h3 class="text-gray-500">No momento, todos os motoristas estão online.</h3>
               </div>
             </div>
           </div>

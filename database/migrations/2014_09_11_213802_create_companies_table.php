@@ -15,6 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('logo')->nullable();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('cep')->nullable();
+            $table->string('phone_1')->nullable();
+            $table->string('phone_2')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

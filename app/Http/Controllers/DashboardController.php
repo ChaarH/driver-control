@@ -17,23 +17,17 @@ class DashboardController extends Controller
 
         $driversOfflineQuery   = clone $driversQuery;
         $driversAvailableQuery = clone $driversQuery;
-        $driversBusyQyery      = clone $driversQuery;
 
         $driversOffline = $driversOfflineQuery
             ->where('online', false)
             ->get();
 
-        $driverBusy = $driversBusyQyery
-            ->where('online', true)
-            ->where('in_run', true)
-            ->get();
-
         $driversAvailable = $driversAvailableQuery
             ->where('online', true)
+            ->orderBy('in_run')
             ->get();
 
         $drivers_offline   = DriverResource::collection($driversOffline);
-        $drivers_busy      = DriverResource::collection($driverBusy);
         $drivers_available = DriverResource::collection($driversAvailable);
 
         return inertia('Dashboard', compact('drivers_available', 'drivers_offline'));

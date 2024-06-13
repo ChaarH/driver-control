@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
 
         User::factory(50)->create();
 
-        $this->call(DriverSeeder::class);
+        $this->call([
+            DriverSeeder::class,
+            RunSeeder::class
+        ]);
     }
 }

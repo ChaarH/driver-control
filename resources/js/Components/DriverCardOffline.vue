@@ -18,7 +18,7 @@
       </div>
       <div class="w-full flex">
         <div class="pt-1 w-2/4">
-          <button class="inline-flex items-center justify-center text-xs rounded-md border border-transparent bg-gray-400 px-3 py-1 font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:w-auto">Detalhes</button>
+          <button class="inline-flex items-center justify-center text-xs rounded-md border border-transparent bg-gray-400 px-3 py-1 font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 sm:w-auto">Detalhes</button>
         </div>
         <div class="flex w-2/4 justify-end text-xs">
           <ul class="text-gray-700 flex items-center justify-between float-right w-full">

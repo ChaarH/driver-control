@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\RoleResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,6 +26,14 @@ class Role extends Model
         3 => 'operator',
         4 => 'driver'
     ];
+
+    public static function getOnlyOperationalRoles()
+    {
+        return RoleResource::collection(
+            self::whereIn('slug', ['administrator', 'operator'])
+                ->get()
+        );
+    }
 
     public function users()
     {

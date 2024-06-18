@@ -6,7 +6,9 @@ use App\Http\Resources\DriverResource;
 use App\Http\Resources\UserResource;
 use App\Models\Driver;
 use App\Models\Role;
+use App\Models\Run;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -14,6 +16,10 @@ class DriverController extends Controller
 {
     public function index()
     {
+
+        $d = new Run();
+        $d->getLastRunFromDriver(1);
+
         $driverQuery = Driver::query();
 
         $driverQuery = $this->applySearch($driverQuery, request('search'));
@@ -32,9 +38,21 @@ class DriverController extends Controller
 
     protected function applySearch(Builder $query, $search)
     {
+        $query = $query->with('user');
+
+
         return $query->when($search, function ($query, $search) {
             $query->where('name', 'like', '%' . $search . '%');
         });
+    }
+
+    public function calculateIdleTime($driver_id)
+    {
+        $lastRun = Run::getLastRunFromDriver($driver_id);
+
+        return Carbon::now()
+            ->subMinutes($lastRun->ended_at)
+            ->diffInMinutes(Carbon::now());
     }
 
     /**

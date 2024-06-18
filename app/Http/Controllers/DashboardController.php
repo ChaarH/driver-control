@@ -13,7 +13,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $driversQuery = Driver::query()->with('user');
+        $driversQuery = Driver::query()
+            ->with('user')
+            ->with('runs');
 
         $driversOfflineQuery   = clone $driversQuery;
         $driversAvailableQuery = clone $driversQuery;

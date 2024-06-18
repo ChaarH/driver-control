@@ -2,7 +2,6 @@
   <Head title="Usuários" />
 
   <AuthenticatedLayout>
-    {{ roles }}
     <template #header>
       <DriversStatusRun />
     </template>
@@ -64,6 +63,25 @@
                     <label
                         for="class_id"
                         class="block text-sm font-medium text-gray-700"
+                    >Senha</label
+                    >
+                    <input
+                        v-model="form.password"
+                        type="text"
+                        id="password"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.password}"
+                    />
+                    <InputError
+                        class="mt-2"
+                        :message="form.errors.password"
+                    />
+                  </div>
+
+                  <div class="col-span-6 sm:col-span-3">
+                    <label
+                        for="class_id"
+                        class="block text-sm font-medium text-gray-700"
                     >Perfil</label
                     >
                     <select
@@ -80,7 +98,7 @@
                           :key="item.id"
                           :value="item.id"
                       >
-                        {{ item.name }}
+                        {{ item.role }}
                       </option>
                     </select>
                     <InputError
@@ -125,33 +143,16 @@ import DriversStatusRun from "@/Components/DriversStatusRun.vue";
 
 defineProps({
   roles: {
-    type: Object,
+    type: Object
   },
 });
-
-let roles = ref({});
 
 const form = useForm({
   name: "",
   email: "",
+  password: "",
   role_id: "",
 });
-
-watch(
-    () => form.role_id,
-    (newValue) => {
-      getRoles(newValue);
-    }
-);
-
-const getRoles = (class_id) => {
-  axios.get("/api/roles").then((response) => {
-    console.log(response.data)
-    roles.value = response.data;
-  });
-
-  console.log(roles.value)
-};
 
 const submit = () => {
   form.post(route("users.store"), {

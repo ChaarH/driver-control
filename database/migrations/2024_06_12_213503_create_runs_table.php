@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained('companies');
             $table->foreignId('driver_id')->constrained('drivers');
             $table->double('price', 2);
+            $table->boolean('lost_run')->default(0);
             $table->string('city_from')->nullable();
             $table->string('city_to')->nullable();
             $table->string('district_from')->nullable();

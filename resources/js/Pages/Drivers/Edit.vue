@@ -185,10 +185,7 @@ defineProps({
   },
 });
 
-let roles = ref({});
-
 const driver = usePage().props.driver;
-
 
 const onlineDriverCheckbox = ref(false)
 const activeDriverCheckbox = ref(false)

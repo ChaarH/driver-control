@@ -29,22 +29,32 @@ class RunSeeder extends Seeder
         foreach ($users as $user) {
             $random_number_of_runs = rand(5, 50);
 
-            $city = fake()->city();
 
             for ($x = 0; $x < $random_number_of_runs; $x++) {
+
+                $city = fake()->city();
+
+                $address_from = fake()->streetAddress();
+                $address_to   = fake()->streetAddress();
+
                 Run::create([
                     'driver_id'     => $user->driver->id,
                     'company_id'    => $user->company_id,
                     'price'         => rand(15, 20),
                     'city_from'     => $city,
                     'city_to'       => $city,
-                    'district_from' => fake(),
-                    'district_to'   => fake(),
-                    'address_from'  => fake()->streetAddress(),
-                    'address_to'    => fake()->streetAddress(),
+                    'district_from' => 'Bairro 1',
+                    'district_to'   => 'Bairro 2',
+                    'address_from'  => $address_from,
+                    'address_to'    => $address_to,
                     'created_at'    => Carbon::now(),
-                    'started_at'    => Carbon::now()->subHours(rand(1,10)),
-                    'ended_at'      => Carbon::now()->subHours(rand(1,3))->subMinutes(1, 59),
+                    'started_at'    => Carbon::now()
+                        ->subHours(rand(1,10))
+                        ->format('Y-m-d H:i:s'),
+                    'ended_at'      => Carbon::now()
+                        ->subHours(rand(1,3))
+                        ->subMinutes(1, 59)
+                        ->format('Y-m-d H:i:s'),
                 ]);
             }
 

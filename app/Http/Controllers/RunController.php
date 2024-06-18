@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\RunResource;
 use App\Models\Run;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RunController extends Controller
 {
@@ -12,7 +14,16 @@ class RunController extends Controller
      */
     public function index()
     {
-        return inertia('Runs/Index');
+        $logged_user = Auth::user();
+
+        $runs = Run::with('driver')
+            ->where('company_id', $logged_user->company_id)
+            ->latest()
+            ->paginate(config('constants.pagination_rules.number_of_rows'));
+
+        $runs = RunResource::collection($runs);
+
+        return inertia('Runs/Index', compact('runs'));
     }
 
     /**

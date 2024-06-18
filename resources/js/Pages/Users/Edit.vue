@@ -3,9 +3,7 @@
 
   <AuthenticatedLayout>
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Usuário
-      </h2>
+      <DriversStatusRun />
     </template>
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
       <div class="lg:grid lg:grid-cols-12 lg:gap-x-5">
@@ -17,7 +15,7 @@
                   <h3
                       class="text-lg leading-6 font-medium text-gray-900"
                   >
-                    Detalhes do Usuário
+                    Detalhes do usuário
                   </h3>
                 </div>
 
@@ -65,56 +63,47 @@
                     <label
                         for="class_id"
                         class="block text-sm font-medium text-gray-700"
-                    >Class</label
+                    >Senha</label
                     >
-                    <select
-                        v-model="form.class_id"
-                        id="class_id"
-                        class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.class_id,}"
-                    >
-                      <option value="">
-                        Select a Class
-                      </option>
-                      <option
-                          v-for="item in classes.data"
-                          :key="item.id"
-                          :value="item.id"
-                      >
-                        {{ item.name }}
-                      </option>
-                    </select>
+                    <input
+                        v-model="form.password"
+                        type="text"
+                        id="password"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.password}"
+                    />
                     <InputError
                         class="mt-2"
-                        :message="form.errors.class_id"
+                        :message="form.errors.password"
                     />
                   </div>
 
                   <div class="col-span-6 sm:col-span-3">
                     <label
-                        for="section_id"
+                        for="class_id"
                         class="block text-sm font-medium text-gray-700"
-                    >Section</label
+                    >Perfil</label
                     >
                     <select
-                        v-model="form.section_id"
-                        id="section_id"
+                        v-model="form.role_id"
+                        id="role_id"
                         class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.section_id,}"
+                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.role_id,}"
                     >
                       <option value="">
-                        Select a Section
+                        Selecione um perfil
                       </option>
                       <option
-                          v-for="section in sections.data"
-                          :value="section.id"
+                          v-for="item in roles.data"
+                          :key="item.id"
+                          :value="item.id"
                       >
-                        {{ section.name }}
+                        {{ item.role }}
                       </option>
                     </select>
                     <InputError
                         class="mt-2"
-                        :message="form.errors.section_id"
+                        :message="form.errors.role_id"
                     />
                   </div>
                 </div>
@@ -123,16 +112,17 @@
                   class="px-4 py-3 bg-gray-50 text-right sm:px-6"
               >
                 <Link
-                    :href="route('students.index')"
+                    :href="route('users.index')"
                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-4"
                 >
-                  Cancel
+                  Cancelar
                 </Link>
                 <button
                     type="submit"
+                    :disabled="form.processing"
                     class="bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  Save
+                  Salvar
                 </button>
               </div>
             </div>
@@ -145,41 +135,31 @@
 
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, Link, useForm } from "@inertiajs/vue3";
+import {Head, Link, useForm, usePage} from "@inertiajs/vue3";
 import { watch, ref } from "vue";
 import axios from "axios";
 import InputError from "@/Components/InputError.vue";
+import DriversStatusRun from "@/Components/DriversStatusRun.vue";
 
 defineProps({
-  classes: {
-    type: Object,
+  user: {
+    type: Object
+  },
+  roles: {
+    type: Object
   },
 });
 
-let sections = ref({});
+const user = usePage().props.user;
 
 const form = useForm({
-  name: "",
-  email: "",
-  class_id: "",
-  section_id: "",
+  name: user.name,
+  email: user.email,
+  role_id: user.role_id
 });
 
-watch(
-    () => form.class_id,
-    (newValue) => {
-      getSections(newValue);
-    }
-);
-
-const getSections = (class_id) => {
-  axios.get("/api/sections?class_id=" + class_id).then((response) => {
-    sections.value = response.data;
-  });
-};
-
 const submit = () => {
-  form.post(route("users.store"), {
+  form.put(route(`users.update`, user.id), {
     preserveScroll: true,
   });
 };

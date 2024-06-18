@@ -23,6 +23,7 @@
                             </div>
 
                           <NavLink
+                              v-if="[superAdmin()].includes(usePermissions($page.props.auth.user.role_id))"
                               :href="route('companies.index')"
                               :active="
                               route().current('companies.index') ||
@@ -33,6 +34,7 @@
                           </NavLink>
 
                           <NavLink
+                              v-if="[superAdmin(), admin()].includes(usePermissions($page.props.auth.user.role_id))"
                               :href="route('users.index')"
                               :active="
                               route().current('users.index') ||
@@ -41,8 +43,8 @@
                           >
                             <MenuUserIcon />Usuários
                           </NavLink>
-
                           <NavLink
+                              v-if="[superAdmin(), general()].includes(usePermissions($page.props.auth.user.role_id))"
                               :href="route('drivers.index')"
                               :active="
                               route().current('drivers.index') ||
@@ -53,6 +55,7 @@
                           </NavLink>
 
                           <NavLink
+                              v-if="[superAdmin(), general()].includes(usePermissions($page.props.auth.user.role_id))"
                               :href="route('runs.index')"
                               :active="
                               route().current('runs.index') ||
@@ -63,6 +66,7 @@
                           </NavLink>
 
                           <NavLink
+                              v-if="[superAdmin(), admin()].includes(usePermissions($page.props.auth.user.role_id))"
                               :href="route('settings.index')"
                               :active="
                               route().current('settings.index') ||
@@ -73,6 +77,7 @@
                           </NavLink>
 
                           <NavLink
+                              v-if="[superAdmin(), admin()].includes(usePermissions($page.props.auth.user.role_id))"
                               :href="route('reports.index')"
                               :active="
                               route().current('reports.index') ||
@@ -215,6 +220,8 @@ import Footer from "@/Components/Footer.vue";
 import MenuReportIcon from "@/Components/Icons/MenuIcons/MenuReportIcon.vue";
 import MenuCompanyIcon from "@/Components/Icons/MenuIcons/MenuCompanyIcon.vue";
 import MenuRunIcon from "@/Components/Icons/MenuIcons/MenuRunIcon.vue";
+import {usePermissions} from "@/Components/Composable/usePermissions.js";
+import {admin, general, superAdmin} from "@/Components/Composable/useTypesOfRoles.js";
 
 const showingNavigationDropdown = ref(false);
 

@@ -18,7 +18,7 @@ class RunController extends Controller
 
         $runs = Run::with('driver')
             ->where('company_id', $logged_user->company_id)
-            ->latest()
+            ->orderBy('id', 'desc')
             ->paginate(config('constants.pagination_rules.number_of_rows'));
 
         $runs = RunResource::collection($runs);

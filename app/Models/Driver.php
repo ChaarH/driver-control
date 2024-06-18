@@ -14,6 +14,7 @@ class Driver extends Model
     protected $fillable = [
         'user_id',
         'run_price',
+        'type_price',
         'pix',
         'car_brand',
         'online',

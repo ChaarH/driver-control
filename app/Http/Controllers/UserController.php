@@ -8,6 +8,7 @@ use App\Http\Resources\UserResource;
 use App\Models\Role;
 use App\Models\User;
 use App\Traits\AvatarGeneratorTrait;
+use App\Traits\LoggedUserTrait;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     use AvatarGeneratorTrait;
+    use LoggedUserTrait;
 
     public function index()
     {
@@ -64,7 +66,7 @@ class UserController extends Controller
 
     public function store(UserStoreRequest $request)
     {
-        $logged_user = Auth::user();
+        $logged_user = $this->userInfo();
 
         $data = $request->validated();
 

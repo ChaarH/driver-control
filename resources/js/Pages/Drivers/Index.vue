@@ -46,14 +46,14 @@
           <div class="border-b border-gray-300 dark:border-gray-300">
             <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
               <li class="me-2">
-                <a href="#" class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                <a href="#" :class="classActiveTab('active')" @click="setActiveTab('active')">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                     <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
                   </svg>Motoristas ativos
                 </a>
               </li>
               <li class="me-2">
-                <a href="#" class="inline-flex items-center justify-center p-4 rounded-t-lg dark:text-blue-500 dark:border-blue-500 group" aria-current="page">
+                <a href="#" :class="classActiveTab('inactive')" @click="setActiveTab('inactive')" aria-current="page">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
                     <path fill-rule="evenodd" d="m5.965 4.904 9.131 9.131a6.5 6.5 0 0 0-9.131-9.131Zm8.07 10.192L4.904 5.965a6.5 6.5 0 0 0 9.131 9.131ZM4.343 4.343a8 8 0 1 1 11.314 11.314A8 8 0 0 1 4.343 4.343Z" clip-rule="evenodd" />
                   </svg>Motoristas inativos
@@ -159,7 +159,7 @@
                       <td
                           class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                       >
-                        {{ user_driver.created_at }}
+                        {{ useDateFormat(user_driver.created_at) }}
                       </td>
 
                       <td
@@ -204,12 +204,25 @@ import { Head, Link, router, useForm, usePage } from "@inertiajs/vue3";
 import { ref, watch, computed } from "vue";
 import BadgeBoolean from "@/Components/BadgeBoolean.vue";
 import DriversStatusRun from "@/Components/DriversStatusRun.vue";
+import {useDateFormat} from "../../Components/Composable/useDateFormat.js";
 
 defineProps({
   users_drivers: {
     type: Object,
   },
 });
+
+let activeTab = ref('active');
+
+function setActiveTab(param_tab) {
+  activeTab.value = param_tab
+}
+
+function classActiveTab(param_tab) {
+  return activeTab.value === param_tab
+      ? 'inline-flex items-center justify-center p-4 rounded-t-lg border-b-2 hover:border-blue-300 dark:text-blue-500 dark:border-blue-500 border-blue-300 group'
+      : 'inline-flex items-center justify-center p-4 rounded-t-lg hover:opacity-75 hover:border-gray-300 dark:text-gray-500 dark:border-gray-500 border-gray-300 group'
+}
 
 let pageNumber = ref(1),
     searchTerm = ref(usePage().props.search ?? "");

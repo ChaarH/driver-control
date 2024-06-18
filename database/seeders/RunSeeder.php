@@ -27,7 +27,8 @@ class RunSeeder extends Seeder
         }
 
         foreach ($users as $user) {
-            $random_number_of_runs = rand(5, 50);
+//            $random_number_of_runs = rand(5, 50);
+            $random_number_of_runs = 20;
 
 
             for ($x = 0; $x < $random_number_of_runs; $x++) {
@@ -40,7 +41,7 @@ class RunSeeder extends Seeder
                 Run::create([
                     'driver_id'     => $user->driver->id,
                     'company_id'    => $user->company_id,
-                    'price'         => rand(15, 20),
+                    'price'         => rand(15, 25),
                     'city_from'     => $city,
                     'city_to'       => $city,
                     'district_from' => 'Bairro 1',

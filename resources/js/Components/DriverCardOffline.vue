@@ -1,7 +1,7 @@
 <template>
   <div class="py-8 px-8 bg-gray-200 rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6 mb-2 w-96 border border-gray-400 opacity-75">
     <div class="">
-      <img class="block mx-auto h-18 rounded-full sm:mx-0 sm:shrink-0" :src="props.avatar" :alt="formattedDriverName" />
+      <img class="block w-16 h-18 rounded-full sm:mx-0 sm:shrink-0" :src="props.avatar" :alt="formattedDriverName" />
     </div>
     <div class="text-center space-y-2 sm:text-left w-3/4">
       <div class="space-y-0.5">
@@ -24,19 +24,19 @@
           <ul class="text-gray-700 flex items-center justify-between float-right w-full">
             <li class="flex flex-col items-center justify-around text-gray-700">
               <StarsIcon />
-              <div>4.5</div>
+              <div>{{ props.stars }}</div>
             </li>
             <li class="flex flex-col items-center justify-around text-gray-700">
               <TruckIcon />
-              <div>2k</div>
+              <div>{{ props.total_runs }}</div>
             </li>
             <li class="flex flex-col items-center justify-around text-gray-700">
               <ThumbsUpIcon />
-              <div>10k</div>
+              <div>{{ props.likes }}</div>
             </li>
             <li class="flex flex-col items-center justify-around text-gray-700">
               <ThumbsDownIcon />
-              <div>15</div>
+              <div>{{ props.dislikes }}</div>
             </li>
           </ul>
         </div>
@@ -66,7 +66,11 @@ const props = defineProps({
   },
   avatar: {
     type: String
-  }
+  },
+  stars: Number,
+  total_runs: Number,
+  likes: Number,
+  dislikes: Number
 })
 
 const formattedDriverName = computed(() => {

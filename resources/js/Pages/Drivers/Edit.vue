@@ -15,7 +15,7 @@
                   <h3
                       class="text-lg leading-6 font-medium text-gray-900"
                   >
-                    Editar Motorista
+                    Detalhes do motorista
                   </h3>
                 </div>
 
@@ -61,15 +61,15 @@
 
                   <div class="col-span-6 sm:col-span-3">
                     <label
-                        for="email"
+                        for="car_brand"
                         class="block text-sm font-medium text-gray-700"
                     >Modelo carro</label
                     >
                     <input
                         v-model="form.car_brand"
-                        type="email"
-                        id="email"
-                        autocomplete="email"
+                        type="text"
+                        id="car_brand"
+                        autocomplete="car_brand"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.car_brand,}"
                     />
@@ -81,15 +81,15 @@
 
                   <div class="col-span-6 sm:col-span-3">
                     <label
-                        for="email"
+                        for="pix"
                         class="block text-sm font-medium text-gray-700"
                     >Chave Pix</label
                     >
                     <input
                         v-model="form.pix"
-                        type="email"
-                        id="email"
-                        autocomplete="email"
+                        type="text"
+                        id="pix"
+                        autocomplete="pix"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.pix,}"
                     />
@@ -101,17 +101,17 @@
 
                   <div class="col-span-4 sm:col-span-3">
                     <label
-                        for="email"
+                        for="run_price"
                         class="block text-sm font-medium text-gray-700"
                     >Valor personalizado da corrida</label
                     >
                     <input
                         v-model="form.run_price"
                         type="text"
-                        id="email"
-                        autocomplete="email"
+                        id="run_price"
+                        autocomplete="run_price"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.run_price,}"
+                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.run_price}"
                     />
                     <InputError
                         class="mt-2"
@@ -119,31 +119,56 @@
                     />
                   </div>
 
+                  <div class="col-span-6 sm:col-span-3">
+                    <label
+                        for="class_id"
+                        class="block text-sm font-medium text-gray-700"
+                    >Tipo de valor</label
+                    >
+                    <select
+                        v-model="form.type_price"
+                        id="type_price"
+                        class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.type_price}"
+                    >
+                      <option value="">Selecione um tipo de valor</option>
+                      <option value="percentage">% Porcentagem</option>
+                      <option value="cash">R$ Dinheiro</option>
+                    </select>
+                    <InputError
+                        class="mt-2"
+                        :message="form.errors.role_id"
+                    />
+                  </div>
+
                   <div class="col-span-4 sm:col-span-3">
-                    <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Foto motorista</label>
-                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
+                    <label class="block mb-2 text-sm font-medium text-gray-900" for="avatar">Foto motorista</label>
+                    <input @change="onFileSelected" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-md py-1 pl-1 cursor-pointer dark:text-gray-400 focus:outline-none" name="avatar" id="avatar" type="file">
+                    <InputError
+                        class="mt-2"
+                        :message="form.errors.avatar"
+                    />
                   </div>
 
                   <div class="col-span-4 sm:col-span-3 mt-8">
                     <div class="flex items-center mb-4">
-                      <input id="country-option-1" type="radio" name="online" value="{{ driver.data.online }}" class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600" v-model="onlineDriverCheckbox">
-                      <label for="country-option-1" class="block ms-2 text-sm text-black">
-                        Online {{ driver.data.online }} {{ driver.data.online === 1 }}
+                      <input id="country-option-1" type="radio" name="online" value="USA" class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600" checked>
+                      <label for="country-option-1" class="block ms-2 text-sm font-medium text-black">
+                        Online
                       </label>
                     </div>
                   </div>
 
                   <div class="col-span-4 sm:col-span-3 mt-8">
                     <div class="flex items-center mb-4">
-                      <input id="country-option-1" type="radio" name="active" value="{{ driver.user.deleted_at }}" class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600" v-model="activeDriverCheckbox">
-                      <label for="country-option-1" class="block ms-2 text-sm text-black">
-                        Motorista ativo (se ainda atua na empresa)
+                      <input id="country-option-1" type="radio" name="online" value="USA" class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600" checked>
+                      <label for="country-option-1" class="block ms-2 text-sm font-medium text-black">
+                        Motorista ativo
                       </label>
                     </div>
                   </div>
 
                 </div>
-
 
               </div>
               <div
@@ -173,8 +198,8 @@
 
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, Link, useForm, usePage } from "@inertiajs/vue3";
-import {watch, ref, onMounted} from "vue";
+import {Head, Link, useForm, usePage} from "@inertiajs/vue3";
+import { watch, ref } from "vue";
 import axios from "axios";
 import InputError from "@/Components/InputError.vue";
 import DriversStatusRun from "@/Components/DriversStatusRun.vue";
@@ -187,25 +212,27 @@ defineProps({
 
 const driver = usePage().props.driver;
 
-const onlineDriverCheckbox = ref(false)
-const activeDriverCheckbox = ref(false)
-
 const form = useForm({
   name: driver.data.user.name,
   email: driver.data.user.email,
   car_brand: driver.data.car_brand,
+  avatar: driver.data.name,
   pix: driver.data.pix,
   run_price: driver.data.run_price,
+  type_price: driver.type_price,
   online: driver.data.online,
-  active: driver.data.user.deleted_at
+  active: ""
 });
 
-watch(() => driver.data.online, (newValue) => {
-  onlineDriverCheckbox.value = newValue;
-});
+let fileSelected = ref(null)
+
+function onFileSelected(event) {
+  fileSelected.value = event.target.files[0]
+  form.avatar = fileSelected.value
+}
 
 const submit = () => {
-  form.get(route(`drivers/${1}/edit`), {
+  form.post(route("drivers.store"), {
     preserveScroll: true,
   });
 };

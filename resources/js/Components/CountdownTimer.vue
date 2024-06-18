@@ -24,6 +24,14 @@ onMounted(() => {
 })
 
 const mountInRunText = computed(() => {
+  const now          = new Date().getTime();
+  const dateObject = new Date(props.initial_time);
+  const convertInitialTime = dateObject.getTime();
+
+  if (convertInitialTime > now) {
+    return 'Encerramento da última corrida incorreta'
+  }
+
   return props.in_run
     ? 'Iniciado há'
     : 'Ocioso há'
@@ -31,9 +39,11 @@ const mountInRunText = computed(() => {
 
 function idleTime() {
   const now = new Date().getTime();
-
   const dateObject = new Date(props.initial_time);
   const convertInitialTime = dateObject.getTime();
+
+  if (convertInitialTime > now) return false
+
   const distance = now - convertInitialTime
 
   const days = Math.floor(distance / (1000 * 60 * 60 * 24));

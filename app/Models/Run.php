@@ -27,7 +27,7 @@ class Run extends Model
         'ended_at'
     ];
 
-    public static function getLastRunFromDriver($driver_id)
+    public static function scopeLastRunFromDriver($driver_id)
     {
         return Run::where('driver_id', $driver_id)
             ->whereRaw('date(ended_at) = ?', [Carbon::now()->format('Y-m-d')] )

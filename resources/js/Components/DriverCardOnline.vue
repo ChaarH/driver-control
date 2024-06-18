@@ -2,7 +2,7 @@
   <div :class="dinamicBorder">
     <div class="flex flex-inline w-full">
       <div class="py-2">
-        <img class="block mx-auto h-18 rounded-full sm:mx-0 sm:shrink-0" :src="props.avatar">
+        <img class="block w-16 h-18 rounded-full sm:mx-0 sm:shrink-0" :src="props.avatar">
       </div>
       <div class="text-center space-y-2 sm:text-left w-3/4">
       <div class="space-y-0.5 pl-4">
@@ -26,27 +26,32 @@
           <ul class="text-gray-700 flex items-center justify-between float-right w-full">
             <li class="flex flex-col items-center justify-around text-gray-700">
               <StarsIcon />
-              <div>4.5</div>
+              <div>{{ props.stars }}</div>
             </li>
             <li class="flex flex-col items-center justify-around text-gray-700">
               <TruckIcon />
-              <div>2k</div>
+              <div>{{ props.total_runs }}</div>
             </li>
             <li class="flex flex-col items-center justify-around text-gray-700">
               <ThumbsUpIcon />
-              <div>10k</div>
+              <div>{{ props.likes }}</div>
             </li>
             <li class="flex flex-col items-center justify-around text-gray-700">
               <ThumbsDownIcon />
-              <div>15</div>
+              <div>{{ props.dislikes }}</div>
             </li>
           </ul>
         </div>
       </div>
     </div>
     </div>
-    <div class="w-full">
+    <div v-if="props.time_last_run !== null" class="w-full">
       <CountdownTimer :initial_time="props.time_last_run" :in_run="props.in_run" />
+    </div>
+    <div v-else class="w-full">
+      <div class="h-10 pt-2 text-2xl leading-10 text-black font-semibold text-center">
+        <span class="text-sm font-light">Nenhuma corrida registrada</span>
+      </div>
     </div>
   </div>
 </template>
@@ -74,7 +79,11 @@ const props = defineProps({
   avatar: {
     type: String
   },
-  time_last_run: String
+  time_last_run: String,
+  stars: Number,
+  total_runs: Number,
+  likes: Number,
+  dislikes: Number
 })
 
 const formattedDriverName = computed(() => {

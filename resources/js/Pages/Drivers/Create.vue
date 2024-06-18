@@ -61,15 +61,15 @@
 
                   <div class="col-span-6 sm:col-span-3">
                     <label
-                        for="email"
+                        for="car_brand"
                         class="block text-sm font-medium text-gray-700"
                     >Modelo carro</label
                     >
                     <input
                         v-model="form.car_brand"
-                        type="email"
-                        id="email"
-                        autocomplete="email"
+                        type="text"
+                        id="car_brand"
+                        autocomplete="car_brand"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.car_brand,}"
                     />
@@ -81,15 +81,15 @@
 
                   <div class="col-span-6 sm:col-span-3">
                     <label
-                        for="email"
+                        for="pix"
                         class="block text-sm font-medium text-gray-700"
                     >Chave Pix</label
                     >
                     <input
                         v-model="form.pix"
-                        type="email"
-                        id="email"
-                        autocomplete="email"
+                        type="text"
+                        id="pix"
+                        autocomplete="pix"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.pix,}"
                     />
@@ -101,15 +101,15 @@
 
                   <div class="col-span-4 sm:col-span-3">
                     <label
-                        for="email"
+                        for="run_price"
                         class="block text-sm font-medium text-gray-700"
                     >Valor personalizado da corrida</label
                     >
                     <input
                         v-model="form.run_price"
                         type="text"
-                        id="email"
-                        autocomplete="email"
+                        id="run_price"
+                        autocomplete="run_price"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.run_price,}"
                     />
@@ -143,8 +143,12 @@
                   </div>
 
                   <div class="col-span-4 sm:col-span-3">
-                    <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Foto motorista</label>
-                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
+                    <label class="block mb-2 text-sm font-medium text-gray-900" for="avatar">Foto motorista</label>
+                    <input @change="onFileSelected" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-md py-1 pl-1 cursor-pointer dark:text-gray-400 focus:outline-none" name="avatar" id="avatar" type="file">
+                    <InputError
+                        class="mt-2"
+                        :message="form.errors.avatar"
+                    />
                   </div>
 
                   <div class="col-span-4 sm:col-span-3 mt-8">
@@ -166,7 +170,6 @@
                   </div>
 
                 </div>
-
 
               </div>
               <div
@@ -208,33 +211,23 @@ defineProps({
   },
 });
 
-let roles = ref({});
-
 const form = useForm({
   name: "",
   email: "",
   car_brand: "",
+  avatar: "",
   pix: "",
   run_price: "",
   online: "",
   active: ""
 });
 
-watch(
-    () => form.role_id,
-    (newValue) => {
-      getRoles(newValue);
-    }
-);
+let fileSelected = ref(null)
 
-const getRoles = (class_id) => {
-  axios.get("/api/roles").then((response) => {
-    console.log(response.data)
-    roles.value = response.data;
-  });
-
-  console.log(roles.value)
-};
+function onFileSelected(event) {
+  fileSelected.value = event.target.files[0]
+  form.avatar = fileSelected.value
+}
 
 const submit = () => {
   form.post(route("drivers.store"), {

@@ -31,7 +31,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         $roles     = Role::whereIn('slug', ['administrator', 'operator', 'driver'])->get();
-        $companies = Company::where('name', '!=', 'weCode')->get();
+        $companies = Company::all();
 
         if ($roles->isEmpty() || $companies->isEmpty()) {
             throw new \Exception('Erro ao executar UserFactory!');

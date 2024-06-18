@@ -4,18 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\DriverResource;
 use App\Models\Driver;
+use App\Traits\LoggedUserTrait;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    use LoggedUserTrait;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $logged_user = $this->userInfo();
+
         $driversQuery = Driver::query()
             ->with('user')
-            ->with('runs');
+            ->with(['runs' => function ($query) {
+                $query->orderBy('id', 'desc');
+            }])
+            ->whereHas('user', function ($query) use ($logged_user) {
+                $query->where('company_id', $logged_user->company_id);
+            });
 
         $driversOfflineQuery   = clone $driversQuery;
         $driversAvailableQuery = clone $driversQuery;

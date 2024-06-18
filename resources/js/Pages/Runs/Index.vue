@@ -154,7 +154,7 @@
                       <td
                           class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                       >
-                        {{ run.price }}
+                        {{ useMoneyFormat(run.price) }}
                       </td>
                       <td
                           class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
@@ -219,6 +219,7 @@ import { ref, watch, computed } from "vue";
 import BadgeRole from "@/Components/BadgeRole.vue";
 import BadgeBoolean from "@/Components/BadgeBoolean.vue";
 import DriversStatusRun from "@/Components/DriversStatusRun.vue";
+import {useMoneyFormat} from "../../Components/Composable/useMoneyFormat.js";
 
 defineProps({
   runs: {

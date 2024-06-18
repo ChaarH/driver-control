@@ -87,7 +87,7 @@
                           scope="col"
                           class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                       >
-                        Name
+                        Nome
                       </th>
                       <th
                           scope="col"
@@ -118,7 +118,7 @@
                     <tbody
                         class="divide-y divide-gray-200 bg-white"
                     >
-                    <tr
+                    <tr v-if="active_users.data.length > 0"
                         v-for="user in active_users.data"
                         :key="user.id"
                     >
@@ -172,6 +172,9 @@
                         </button>
                       </td>
                     </tr>
+                    <tr v-else>
+                      <td class="py-4 text-center text-gray-600" colspan="6">Nenhum registro encontrado</td>
+                    </tr>
                     </tbody>
                   </table>
                 </div>
@@ -208,7 +211,7 @@
                           scope="col"
                           class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                       >
-                        Name
+                        Nome
                       </th>
                       <th
                           scope="col"
@@ -240,7 +243,7 @@
                         class="divide-y divide-gray-200 bg-white"
                     >
                     <tr
-                        v-for="user in inactive_users.data"
+                        v-if="inactive_users.data.length > 0" v-for="user in inactive_users.data"
                         :key="user.id"
                     >
                       <td
@@ -292,6 +295,9 @@
                           Reativar
                         </button>
                       </td>
+                    </tr>
+                    <tr v-else>
+                      <td class="py-4 text-center text-gray-600" colspan="6">Nenhum registro encontrado</td>
                     </tr>
                     </tbody>
                   </table>

@@ -26,13 +26,25 @@
           <div class="mt-2">
             <DangerButton>Registrar corrida perdida</DangerButton>
           </div>
+
+          <ModalNewRun />
         </div>
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
               <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-3">{{ driversOnline }}</h2>
-              <div class="flex flex-wrap justify-between">
+              <div class="grid grid-cols-3 gap-3">
                 <div v-if="drivers_available.data.length > 0" v-for="driver_available in drivers_available.data" :key="driver_available.id" class="">
-                  <DriverCardOnline :name="driver_available.user.name" :online="driver_available.online" :in_run="driver_available.in_run" :avatar="driver_available.user.avatar" :time_last_run="driver_available.runs[0].ended_at" />
+                  <DriverCardOnline
+                      :name="driver_available.user.name"
+                      :online="driver_available.online"
+                      :in_run="driver_available.in_run"
+                      :avatar="driver_available.user.avatar"
+                      :time_last_run="driver_available.runs.length > 0 ? driver_available.runs[0].ended_at : null"
+                      :stars="useCalculateStarRate(driver_available.runs.length, driver_available.likes, driver_available.dislikes)"
+                      :total_runs="driver_available.runs.length"
+                      :likes="driver_available.likes"
+                      :dislikes="driver_available.dislikes"
+                  />
                 </div>
                 <div v-else class="flex justify-center text-center">
                   <h3 class="text-gray-500">No momento, todos os motoristas estão offline.</h3>
@@ -44,9 +56,18 @@
         <div class="py-6 pb-20">
           <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-3">{{ driversOffline }}</h2>
-            <div class="flex flex-wrap justify-between">
+            <div class="grid grid-cols-3 gap-3">
               <div v-if="drivers_offline.data.length > 0" v-for="drivers_offline in drivers_offline.data" :key="drivers_offline.id">
-                <DriverCardOffline :name="drivers_offline.user.name" :online="drivers_offline.online" :in_run="drivers_offline.in_run" :avatar="drivers_offline.user.avatar" />
+                <DriverCardOffline
+                    :name="drivers_offline.user.name"
+                    :online="drivers_offline.online"
+                    :in_run="drivers_offline.in_run"
+                    :avatar="drivers_offline.user.avatar"
+                    :stars="useCalculateStarRate(drivers_offline.runs.length, drivers_offline.likes, drivers_offline.dislikes)"
+                    :total_runs="drivers_offline.runs.length"
+                    :likes="drivers_offline.likes"
+                    :dislikes="drivers_offline.dislikes"
+                />
               </div>
               <div v-else class="flex justify-center text-center">
                 <h3 class="text-gray-500">No momento, todos os motoristas estão online.</h3>
@@ -66,6 +87,8 @@ import DriverCardOffline from "@/Components/DriverCardOffline.vue";
 import DriverCardOnline from "@/Components/DriverCardOnline.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import {computed} from "vue";
+import ModalNewRun from "@/Components/ModalNewRun.vue";
+import {useCalculateStarRate} from "@/Components/Composable/useCalculateStarRate.js";
 
 
 const props = defineProps({

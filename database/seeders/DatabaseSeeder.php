@@ -20,9 +20,10 @@ class DatabaseSeeder extends Seeder
             CompanySeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
+            SettingSeeder::class
         ]);
 
-        User::factory(50)->create();
+        User::factory(100)->create();
 
         $this->call([
             DriverSeeder::class,

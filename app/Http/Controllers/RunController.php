@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DriverResource;
+use App\Http\Resources\ReasonWithdrawalResource;
 use App\Http\Resources\RunResource;
+use App\Models\Driver;
+use App\Models\ReasonWithdrawal;
 use App\Models\Run;
+use App\Traits\LoggedUserTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class RunController extends Controller
 {
+    use LoggedUserTrait;
     /**
      * Display a listing of the resource.
      */
@@ -31,7 +37,32 @@ class RunController extends Controller
      */
     public function create()
     {
-        //
+        $logged_user = $this->userInfo();
+
+        $reasons_for_withdrawal = ReasonWithdrawalResource::collection(
+            ReasonWithdrawal::with('company')
+                ->whereHas('company', function ($query) use ($logged_user) {
+                    $query->where('id', $logged_user->company_id);
+                })
+                ->get()
+        );
+
+        // TODO
+        // Selecionar somente os motorias online e disponíveis
+        // Adicionar tempo de ociosidade na visualização
+
+        $drivers = DriverResource::collection(
+            Driver::with('user')
+                ->whereHas('user', function ($query) use ($logged_user) {
+                    $query->where('company_id', $logged_user->company_id)
+                        ->orderBy('name');
+                })
+                    ->where('online', true)
+                    ->where('in_run', false)
+                    ->get()
+        );
+
+        return inertia('Runs/Create', compact('reasons_for_withdrawal', 'drivers'));
     }
 
     /**

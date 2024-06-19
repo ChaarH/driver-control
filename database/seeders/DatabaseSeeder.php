@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             CompanySeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
-            SettingSeeder::class
+            SettingSeeder::class,
+            ReasonWithdrawalSeeder::class
         ]);
 
         User::factory(100)->create();

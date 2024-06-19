@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('runs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('created_by_id')->constrained('users');
             $table->foreignId('company_id')->constrained('companies');
             $table->foreignId('driver_id')->constrained('drivers');
             $table->double('price', 2);

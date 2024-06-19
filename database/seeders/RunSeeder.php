@@ -26,9 +26,14 @@ class RunSeeder extends Seeder
             throw new \Exception('Nenhum motorista cadastrado para que DriverSeeder seja executado!');
         }
 
+        $operators = User::where('role_id', Role::ROLES['operator'])
+            ->pluck('id');
+
         foreach ($users as $user) {
 //            $random_number_of_runs = rand(5, 50);
             $random_number_of_runs = 20;
+
+            $random_array_operators = rand(0, $operators->count()-1);
 
 
             for ($x = 0; $x < $random_number_of_runs; $x++) {
@@ -39,6 +44,7 @@ class RunSeeder extends Seeder
                 $address_to   = fake()->streetAddress();
 
                 Run::create([
+                    'created_by_id' => $operators[$random_array_operators],
                     'driver_id'     => $user->driver->id,
                     'company_id'    => $user->company_id,
                     'price'         => rand(15, 25),

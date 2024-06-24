@@ -3,7 +3,7 @@
 
   <AuthenticatedLayout>
     <template #header>
-      <DriversStatusRun />
+      <DriversStatusTrip />
     </template>
 
     <div class="bg-gray-100 py-10">
@@ -21,6 +21,6 @@
 
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import DriversStatusRun from "@/Components/DriversStatusRun.vue";
+import DriversStatusTrip from "@/Components/DriversStatusTrip.vue";
 import {Head} from "@inertiajs/vue3";
 </script>

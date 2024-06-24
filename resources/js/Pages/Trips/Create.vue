@@ -1,5 +1,5 @@
 <template>
-  <Head title="Motoristas" />
+  <Head title="Novo atendimento" />
 
   <AuthenticatedLayout>
     <template #header>
@@ -15,11 +15,25 @@
                   <h3
                       class="text-lg leading-6 font-medium text-gray-900"
                   >
-                    Cadastrar novo Motorista
+                    Cadastrar novo atendimento
                   </h3>
                 </div>
 
                 <div class="grid grid-cols-6 gap-6">
+
+                  <div class="col-span-6 sm:col-span-3">
+                    <label
+                        for="driver_id"
+                        class="block text-sm font-medium text-gray-700"
+                    >Motoristas disponíveis *</label
+                    >
+                    <ComboBox
+                        v-model="form.driver_id"
+                        id="driver_id"
+                        :drivers="drivers.data"
+                    />
+                  </div>
+
                   <div class="col-span-6 sm:col-span-3">
                     <label
                         for="name"
@@ -41,136 +55,124 @@
 
                   <div class="col-span-6 sm:col-span-3">
                     <label
-                        for="email"
+                        for="address_from"
                         class="block text-sm font-medium text-gray-700"
-                    >E-mail</label
+                    >Endereço de origem</label
                     >
                     <input
-                        v-model="form.email"
-                        type="email"
-                        id="email"
-                        autocomplete="email"
+                        v-model="form.address_from"
+                        type="address_from"
+                        id="address_from"
+                        autocomplete="address_from"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.email,}"
+                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.address_from,}"
                     />
                     <InputError
                         class="mt-2"
-                        :message="form.errors.email"
+                        :message="form.errors.address_from"
                     />
                   </div>
 
                   <div class="col-span-6 sm:col-span-3">
                     <label
-                        for="car_brand"
+                        for="address_to"
                         class="block text-sm font-medium text-gray-700"
-                    >Modelo carro</label
+                    >Endereço de destino</label
                     >
                     <input
-                        v-model="form.car_brand"
-                        type="text"
-                        id="car_brand"
-                        autocomplete="car_brand"
+                        v-model="form.address_to"
+                        type="address_to"
+                        id="address_to"
+                        autocomplete="address_to"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.car_brand,}"
+                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.address_to,}"
                     />
                     <InputError
                         class="mt-2"
-                        :message="form.errors.car_brand"
+                        :message="form.errors.address_to"
                     />
                   </div>
 
                   <div class="col-span-6 sm:col-span-3">
                     <label
-                        for="pix"
+                        for="district_from"
                         class="block text-sm font-medium text-gray-700"
-                    >Chave Pix</label
+                    >Bairro de origem</label
                     >
                     <input
-                        v-model="form.pix"
-                        type="text"
-                        id="pix"
-                        autocomplete="pix"
+                        v-model="form.district_from"
+                        type="district_from"
+                        id="district_from"
+                        autocomplete="district_from"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.pix,}"
+                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.district_from,}"
                     />
                     <InputError
                         class="mt-2"
-                        :message="form.errors.pix"
-                    />
-                  </div>
-
-                  <div class="col-span-4 sm:col-span-3">
-                    <label
-                        for="run_price"
-                        class="block text-sm font-medium text-gray-700"
-                    >Valor personalizado da corrida</label
-                    >
-                    <input
-                        v-model="form.run_price"
-                        type="text"
-                        id="run_price"
-                        autocomplete="run_price"
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.run_price,}"
-                    />
-                    <InputError
-                        class="mt-2"
-                        :message="form.errors.run_price"
+                        :message="form.errors.district_from"
                     />
                   </div>
 
                   <div class="col-span-6 sm:col-span-3">
                     <label
-                        for="class_id"
+                        for="district_to"
                         class="block text-sm font-medium text-gray-700"
-                    >Tipo de valor</label
+                    >Bairro de destino</label
                     >
-                    <select
-                        id="role_id"
-                        class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.role_id,}"
-                    >
-                      <option value="">
-                        Selecione um tipo de valor
-                      </option>
-                      <option value="percentage">% Porcentagem</option>
-                      <option value="cash">R$ Dinheiro</option>
-                    </select>
+                    <input
+                        v-model="form.district_to"
+                        type="district_to"
+                        id="district_to"
+                        autocomplete="district_to"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.district_to,}"
+                    />
                     <InputError
                         class="mt-2"
-                        :message="form.errors.role_id"
+                        :message="form.errors.district_to"
                     />
                   </div>
 
-                  <div class="col-span-4 sm:col-span-3">
-                    <label class="block mb-2 text-sm font-medium text-gray-900" for="avatar">Foto motorista</label>
-                    <input @change="onFileSelected" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-md py-1 pl-1 cursor-pointer dark:text-gray-400 focus:outline-none" name="avatar" id="avatar" type="file">
+                  <div class="col-span-6 sm:col-span-3">
+                    <label
+                        for="city_from"
+                        class="block text-sm font-medium text-gray-700"
+                    >Cidade de origem</label
+                    >
+                    <input
+                        v-model="form.city_from"
+                        type="city_from"
+                        id="city_from"
+                        autocomplete="city_from"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.city_from,}"
+                    />
                     <InputError
                         class="mt-2"
-                        :message="form.errors.avatar"
+                        :message="form.errors.city_from"
                     />
                   </div>
 
-                  <div class="col-span-4 sm:col-span-3 mt-8">
-                    <div class="flex items-center mb-4">
-                      <input id="country-option-1" type="radio" name="online" value="USA" class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600" checked>
-                      <label for="country-option-1" class="block ms-2 text-sm font-medium text-black">
-                        Online
-                      </label>
-                    </div>
+                  <div class="col-span-6 sm:col-span-3">
+                    <label
+                        for="city_to"
+                        class="block text-sm font-medium text-gray-700"
+                    >Cidade de destino</label
+                    >
+                    <input
+                        v-model="form.city_to"
+                        type="city_to"
+                        id="city_to"
+                        autocomplete="city_to"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.city_to,}"
+                    />
+                    <InputError
+                        class="mt-2"
+                        :message="form.errors.city_to"
+                    />
                   </div>
-
-                  <div class="col-span-4 sm:col-span-3 mt-8">
-                    <div class="flex items-center mb-4">
-                      <input id="country-option-1" type="radio" name="online" value="USA" class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600" checked>
-                      <label for="country-option-1" class="block ms-2 text-sm font-medium text-black">
-                        Motorista ativo
-                      </label>
-                    </div>
-                  </div>
-
                 </div>
-
               </div>
               <div
                   class="px-4 py-3 bg-gray-50 text-right sm:px-6"
@@ -204,33 +206,26 @@ import { watch, ref } from "vue";
 import axios from "axios";
 import InputError from "@/Components/InputError.vue";
 import DriversStatusTrip from "@/Components/DriversStatusTrip.vue";
+import ComboBoxView from "@/Components/ComboBoxView.vue";
+import ComboBox from "@/Components/ComboBox.vue";
 
 defineProps({
-  roles: {
-    type: Object,
-  },
+  reasosn_for_withdrawal: Object,
+  drivers: Object
 });
 
 const form = useForm({
-  name: "",
-  email: "",
-  car_brand: "",
-  avatar: "",
-  pix: "",
-  run_price: "",
-  online: "",
-  active: ""
+  driver_id: "",
+  address_from: "",
+  address_to: "",
+  city_from: "",
+  city_to: "",
+  district_from: "",
+  district_to: "",
 });
 
-let fileSelected = ref(null)
-
-function onFileSelected(event) {
-  fileSelected.value = event.target.files[0]
-  form.avatar = fileSelected.value
-}
-
 const submit = () => {
-  form.post(route("drivers.store"), {
+  form.post(route("trips.store"), {
     preserveScroll: true,
   });
 };

@@ -21,14 +21,15 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             SettingSeeder::class,
-            ReasonWithdrawalSeeder::class
+            ReasonWithdrawalSeeder::class,
+            CitySeeder::class
         ]);
 
         User::factory(100)->create();
 
         $this->call([
             DriverSeeder::class,
-            RunSeeder::class
+            TripSeeder::class
         ]);
     }
 }

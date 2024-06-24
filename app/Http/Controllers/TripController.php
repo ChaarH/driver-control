@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\DriverResource;
 use App\Http\Resources\ReasonWithdrawalResource;
-use App\Http\Resources\RunResource;
+use App\Http\Resources\TripResource;
 use App\Models\Driver;
 use App\Models\ReasonWithdrawal;
-use App\Models\Run;
+use App\Models\Trip;
 use App\Traits\LoggedUserTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class RunController extends Controller
+class TripController extends Controller
 {
     use LoggedUserTrait;
     /**
@@ -22,14 +22,14 @@ class RunController extends Controller
     {
         $logged_user = Auth::user();
 
-        $runs = Run::with('driver')
+        $trips = Trip::with('driver')
             ->where('company_id', $logged_user->company_id)
             ->orderBy('id', 'desc')
             ->paginate(config('constants.pagination_rules.number_of_rows'));
 
-        $runs = RunResource::collection($runs);
+        $trips = TripResource::collection($trips);
 
-        return inertia('Runs/Index', compact('runs'));
+        return inertia('Trips/Index', compact('trips'));
     }
 
     /**
@@ -58,11 +58,11 @@ class RunController extends Controller
                         ->orderBy('name');
                 })
                     ->where('online', true)
-                    ->where('in_run', false)
+                    ->where('in_trip', false)
                     ->get()
         );
 
-        return inertia('Runs/Create', compact('reasons_for_withdrawal', 'drivers'));
+        return inertia('Trips/Create', compact('reasons_for_withdrawal', 'drivers'));
     }
 
     /**
@@ -70,13 +70,13 @@ class RunController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Run $run)
+    public function show(Trip $trip)
     {
         //
     }
@@ -84,7 +84,7 @@ class RunController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Run $run)
+    public function edit(Trip $trip)
     {
         //
     }
@@ -92,7 +92,7 @@ class RunController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Run $run)
+    public function update(Request $request, Trip $trip)
     {
         //
     }
@@ -100,7 +100,7 @@ class RunController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Run $run)
+    public function destroy(Trip $trip)
     {
         //
     }

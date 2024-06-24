@@ -1,19 +1,21 @@
 <?php
 
 use App\Http\Controllers\{
+    CityController,
     CompanyController,
     DriverController,
     UserController,
     ProfileController,
     SettingsController,
     RoleController,
-    RunController,
+    TripController,
     ReportController,
     DashboardController
 };
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\Auth\Api\LoginController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -27,7 +29,9 @@ Route::get('/', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(callback: function () {
-//    Route::resource('/dashboard', DashboardController::class)->name('dashboard.index');
+
+    Route::post('login', [LoginController::class, 'login']);
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -38,7 +42,8 @@ Route::middleware('auth')->group(callback: function () {
     Route::resource('settings', SettingsController::class);
     Route::resource('reports', ReportController::class);
     Route::resource('companies', CompanyController::class);
-    Route::resource('runs', RunController::class);
+    Route::resource('trips', TripController::class);
+    Route::resource('cities', CityController::class);
 });
 
 require __DIR__.'/auth.php';

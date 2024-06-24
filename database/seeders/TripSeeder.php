@@ -2,16 +2,17 @@
 
 namespace Database\Seeders;
 
+use App\Models\City;
 use App\Models\Driver;
 use App\Models\Role;
-use App\Models\Run;
+use App\Models\Trip;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Provider\pt_BR\Address;
 
-class RunSeeder extends Seeder
+class TripSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -35,21 +36,20 @@ class RunSeeder extends Seeder
 
             $random_array_operators = rand(0, $operators->count()-1);
 
+            $city = City::all()->random();
 
             for ($x = 0; $x < $random_number_of_runs; $x++) {
-
-                $city = fake()->city();
 
                 $address_from = fake()->streetAddress();
                 $address_to   = fake()->streetAddress();
 
-                Run::create([
+                Trip::create([
                     'created_by_id' => $operators[$random_array_operators],
                     'driver_id'     => $user->driver->id,
                     'company_id'    => $user->company_id,
                     'price'         => rand(15, 25),
-                    'city_from'     => $city,
-                    'city_to'       => $city,
+                    'city_id_from'  => $city->id,
+                    'city_id_to'    => $city->id,
                     'district_from' => 'Bairro 1',
                     'district_to'   => 'Bairro 2',
                     'address_from'  => $address_from,

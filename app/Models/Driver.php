@@ -13,12 +13,12 @@ class Driver extends Model
 
     protected $fillable = [
         'user_id',
-        'run_price',
+        'trip_price',
         'type_price',
         'pix',
         'car_brand',
         'online',
-        'in_run'
+        'in_trip'
     ];
 
 
@@ -30,8 +30,8 @@ class Driver extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    public function runs()
+    public function trips()
     {
-        return $this->hasMany(Run::class)->latest();
+        return $this->hasMany(Trip::class)->latest();
     }
 }

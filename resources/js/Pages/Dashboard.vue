@@ -3,7 +3,7 @@
 
     <AuthenticatedLayout>
         <template #header>
-            <DriversStatusRun />
+            <DriversStatusTrip />
         </template>
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 pt-4">
@@ -55,7 +55,6 @@
             </Modal>
           </div>
 
-          <ModalNewRun />
         </div>
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -65,11 +64,11 @@
                   <DriverCardOnline
                       :name="driver_available.user.name"
                       :online="driver_available.online"
-                      :in_run="driver_available.in_run"
+                      :in_run="driver_available.in_trip"
                       :avatar="driver_available.user.avatar"
-                      :time_last_run="driver_available.runs.length > 0 ? driver_available.runs[0].ended_at : null"
-                      :stars="useCalculateStarRate(driver_available.runs.length, driver_available.likes, driver_available.dislikes)"
-                      :total_runs="driver_available.runs.length"
+                      :time_last_trip="driver_available.trips.length > 0 ? driver_available.trips[0].ended_at : null"
+                      :stars="useCalculateStarRate(driver_available.trips.length, driver_available.likes, driver_available.dislikes)"
+                      :total_trips="driver_available.trips.length"
                       :likes="driver_available.likes"
                       :dislikes="driver_available.dislikes"
                   />
@@ -89,10 +88,10 @@
                 <DriverCardOffline
                     :name="drivers_offline.user.name"
                     :online="drivers_offline.online"
-                    :in_run="drivers_offline.in_run"
+                    :in_trip="drivers_offline.in_trip"
                     :avatar="drivers_offline.user.avatar"
-                    :stars="useCalculateStarRate(drivers_offline.runs.length, drivers_offline.likes, drivers_offline.dislikes)"
-                    :total_runs="drivers_offline.runs.length"
+                    :stars="useCalculateStarRate(drivers_offline.trips.length, drivers_offline.likes, drivers_offline.dislikes)"
+                    :total_trips="drivers_offline.trips.length"
                     :likes="drivers_offline.likes"
                     :dislikes="drivers_offline.dislikes"
                 />
@@ -110,7 +109,7 @@
 import {Head} from '@inertiajs/vue3';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import MagnifyingGlass from "@/Components/Icons/MagnifyingGlass.vue";
-import DriversStatusRun from "@/Components/DriversStatusRun.vue";
+import DriversStatusTrip from "@/Components/DriversStatusTrip.vue";
 import DriverCardOffline from "@/Components/DriverCardOffline.vue";
 import DriverCardOnline from "@/Components/DriverCardOnline.vue";
 import DangerButton from "@/Components/DangerButton.vue";
@@ -138,12 +137,12 @@ const confirmUserDeletion = () => {
 };
 
 const deleteUser = () => {
-  form.delete(route('profile.destroy'), {
-    preserveScroll: true,
-    onSuccess: () => closeModal(),
-    onError: () => passwordInput.value.focus(),
-    onFinish: () => form.reset(),
-  });
+  // form.delete(route('profile.destroy'), {
+  //   preserveScroll: true,
+  //   onSuccess: () => closeModal(),
+  //   onError: () => passwordInput.value.focus(),
+  //   onFinish: () => form.reset(),
+  // });
 };
 
 const closeModal = () => {

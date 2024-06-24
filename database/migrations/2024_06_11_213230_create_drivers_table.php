@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->double('run_price', 2)->nullable();
+            $table->double('trip_price', 2)->nullable();
             $table->string('type_price')->default('cash')->comment('cash, percentage');
             $table->string('pix')->nullable();
             $table->string('car_brand')->nullable();
             $table->boolean('online')->default(0);
-            $table->boolean('in_run')->default(0);
+            $table->boolean('in_trip')->default(0);
             $table->integer('likes')->nullable();
             $table->integer('dislikes')->nullable();
             $table->timestamps();

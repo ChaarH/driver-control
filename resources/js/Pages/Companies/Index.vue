@@ -3,7 +3,7 @@
 
   <AuthenticatedLayout>
     <template #header>
-      <DriversStatusRun />
+      <DriversStatusTrip />
     </template>
     <div class="bg-gray-100 py-10">
       <div class="mx-auto max-w-7xl">
@@ -192,9 +192,8 @@ import Pagination from "@/Components/Pagination.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router, useForm, usePage } from "@inertiajs/vue3";
 import { ref, watch, computed } from "vue";
-import BadgeRole from "@/Components/BadgeRole.vue";
 import BadgeBoolean from "@/Components/BadgeBoolean.vue";
-import DriversStatusRun from "@/Components/DriversStatusRun.vue";
+import DriversStatusTrip from "@/Components/DriversStatusTrip.vue";
 
 defineProps({
   companies: {

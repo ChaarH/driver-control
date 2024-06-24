@@ -28,7 +28,7 @@
             </li>
             <li class="flex flex-col items-center justify-around text-gray-700">
               <TruckIcon />
-              <div>{{ props.total_runs }}</div>
+              <div>{{ props.total_trips }}</div>
             </li>
             <li class="flex flex-col items-center justify-around text-gray-700">
               <ThumbsUpIcon />
@@ -61,14 +61,14 @@ const props = defineProps({
   online: {
     type: Boolean
   },
-  in_run: {
+  in_trip: {
     type: Boolean
   },
   avatar: {
     type: String
   },
   stars: Number,
-  total_runs: Number,
+  total_trips: Number,
   likes: Number,
   dislikes: Number
 })

@@ -35,7 +35,7 @@ class DriverSeeder extends Seeder
                 'online'    => $online,
                 'pix'       => Str::random(10),
                 'car_brand' => fake()->text(50),
-                'in_run'    => $online === 1 ? true : false,
+                'in_trip'   => $online === 1 ? true : false,
                 'likes'     => $likes,
                 'dislikes'  => $dislikes,
             ]);

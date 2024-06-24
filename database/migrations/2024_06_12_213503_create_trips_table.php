@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('runs', function (Blueprint $table) {
+        Schema::create('trips', function (Blueprint $table) {
             $table->id();
             $table->foreignId('created_by_id')->constrained('users');
             $table->foreignId('company_id')->constrained('companies');
             $table->foreignId('driver_id')->constrained('drivers');
             $table->double('price', 2);
             $table->boolean('lost_run')->default(0);
-            $table->string('city_from')->nullable();
-            $table->string('city_to')->nullable();
+            $table->foreignId('city_id_from')->constrained('cities');
+            $table->foreignId('city_id_to')->constrained('cities');
             $table->string('district_from')->nullable();
             $table->string('district_to')->nullable();
             $table->string('address_from')->nullable();

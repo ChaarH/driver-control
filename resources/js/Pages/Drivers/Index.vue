@@ -3,7 +3,7 @@
 
   <AuthenticatedLayout>
     <template #header>
-      <DriversStatusRun />
+      <DriversStatusTrip />
     </template>
     <div class="bg-gray-100 py-10">
       <div class="mx-auto max-w-7xl">
@@ -203,7 +203,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router, useForm, usePage } from "@inertiajs/vue3";
 import { ref, watch, computed } from "vue";
 import BadgeBoolean from "@/Components/BadgeBoolean.vue";
-import DriversStatusRun from "@/Components/DriversStatusRun.vue";
+import DriversStatusTrip from "@/Components/DriversStatusTrip.vue";
 import {useDateFormat} from "../../Components/Composable/useDateFormat.js";
 
 defineProps({

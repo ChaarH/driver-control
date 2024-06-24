@@ -6,7 +6,7 @@ use App\Http\Resources\DriverResource;
 use App\Http\Resources\UserResource;
 use App\Models\Driver;
 use App\Models\Role;
-use App\Models\Run;
+use App\Models\Trip;
 use App\Models\User;
 use App\Traits\AvatarGeneratorTrait;
 use App\Traits\FileUploadTrait;
@@ -60,7 +60,7 @@ class DriverController extends Controller
 
     public function calculateIdleTime($driver_id)
     {
-        $lastRun = Run::getLastRunFromDriver($driver_id);
+        $lastRun = Trip::getLastRunFromDriver($driver_id);
 
         return Carbon::now()
             ->subMinutes($lastRun->ended_at)

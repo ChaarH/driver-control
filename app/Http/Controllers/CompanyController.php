@@ -40,7 +40,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Companies/Create');
     }
 
     /**

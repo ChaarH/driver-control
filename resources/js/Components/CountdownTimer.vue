@@ -9,9 +9,9 @@ import {computed, onMounted, ref} from "vue";
 
 const props = defineProps({
   initial_time: {
-    type: String
+    type: Date
   },
-  in_run: {
+  in_trip: {
     type: Boolean
   }
 })
@@ -24,15 +24,15 @@ onMounted(() => {
 })
 
 const mountInRunText = computed(() => {
-  const now          = new Date().getTime();
-  const dateObject = new Date(props.initial_time);
+  const now                = new Date().getTime();
+  const dateObject         = new Date(props.initial_time);
   const convertInitialTime = dateObject.getTime();
 
   if (convertInitialTime > now) {
     return 'Encerramento da última corrida incorreta'
   }
 
-  return props.in_run
+  return props.in_trip
     ? 'Iniciado há'
     : 'Ocioso há'
 })
@@ -46,11 +46,13 @@ function idleTime() {
 
   const distance = now - convertInitialTime
 
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const days    = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours   = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-  countdown.value = `${hours}h ${minutes}m ${seconds}s`
+  countdown.value = days === 0
+    ? `${hours}h ${minutes}m ${seconds}s`
+    : `${days}d ${hours}h ${minutes}m ${seconds}s`
 }
 </script>

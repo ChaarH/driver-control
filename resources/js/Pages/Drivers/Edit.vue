@@ -3,7 +3,7 @@
 
   <AuthenticatedLayout>
     <template #header>
-      <DriversStatusRun />
+      <DriversStatusTrip />
     </template>
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
       <div class="lg:grid lg:grid-cols-12 lg:gap-x-5">
@@ -101,21 +101,21 @@
 
                   <div class="col-span-4 sm:col-span-3">
                     <label
-                        for="run_price"
+                        for="trip_price"
                         class="block text-sm font-medium text-gray-700"
                     >Valor personalizado da corrida</label
                     >
                     <input
-                        v-model="form.run_price"
+                        v-model="form.trip_price"
                         type="text"
-                        id="run_price"
-                        autocomplete="run_price"
+                        id="trip_price"
+                        autocomplete="trip_price"
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.run_price}"
+                        :class="{'text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300' : form.errors.trip_price}"
                     />
                     <InputError
                         class="mt-2"
-                        :message="form.errors.run_price"
+                        :message="form.errors.trip_price"
                     />
                   </div>
 
@@ -202,7 +202,8 @@ import {Head, Link, useForm, usePage} from "@inertiajs/vue3";
 import { watch, ref } from "vue";
 import axios from "axios";
 import InputError from "@/Components/InputError.vue";
-import DriversStatusRun from "@/Components/DriversStatusRun.vue";
+import DriversStatusTrip from "@/Components/DriversStatusTrip.vue";
+import {useMoneyFormat} from "@/Components/Composable/useMoneyFormat.js";
 
 defineProps({
   driver: {
@@ -218,7 +219,7 @@ const form = useForm({
   car_brand: driver.data.car_brand,
   avatar: driver.data.name,
   pix: driver.data.pix,
-  run_price: driver.data.run_price,
+  trip_price: useMoneyFormat(driver.data.trip_price),
   type_price: driver.type_price,
   online: driver.data.online,
   active: ""

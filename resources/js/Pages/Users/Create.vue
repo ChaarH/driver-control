@@ -3,7 +3,7 @@
 
   <AuthenticatedLayout>
     <template #header>
-      <DriversStatusRun />
+      <DriversStatusTrip />
     </template>
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
       <div class="lg:grid lg:grid-cols-12 lg:gap-x-5">
@@ -139,7 +139,7 @@ import { Head, Link, useForm } from "@inertiajs/vue3";
 import { watch, ref } from "vue";
 import axios from "axios";
 import InputError from "@/Components/InputError.vue";
-import DriversStatusRun from "@/Components/DriversStatusRun.vue";
+import DriversStatusTrip from "@/Components/DriversStatusTrip.vue";
 
 defineProps({
   roles: {

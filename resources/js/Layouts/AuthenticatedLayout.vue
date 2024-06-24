@@ -1,4 +1,6 @@
 <template>
+<!--    {{ $page.props.auth.user}}-->
+
     <div>
         <div class="min-h-screen bg-gray-100">
             <nav class="bg-white border-b border-gray-100">
@@ -54,15 +56,30 @@
                             <MenuDriverIcon />Motoristas
                           </NavLink>
 
+                          <Dropdown align="right" width="48">
+                            <DropdownLink href="route('trips.index')">Teste</DropdownLink>
+                          </Dropdown>
+
                           <NavLink
                               v-if="[superAdmin(), general()].includes(usePermissions($page.props.auth.user.role_id))"
-                              :href="route('runs.index')"
+                              :href="route('trips.index')"
                               :active="
-                              route().current('runs.index') ||
-                              route().current('runs.create') ||
-                              route().current('runs.edit')"
+                              route().current('trips.index') ||
+                              route().current('trips.create') ||
+                              route().current('trips.edit')"
                           >
                             <MenuRunIcon />Atendimentos
+                          </NavLink>
+
+                          <NavLink
+                              v-if="[superAdmin(), general()].includes(usePermissions($page.props.auth.user.role_id))"
+                              :href="route('cities.index')"
+                              :active="
+                              route().current('cities.index') ||
+                              route().current('cities.create') ||
+                              route().current('cities.edit')"
+                          >
+                            <MenuCityIcon />Cidades
                           </NavLink>
 
                           <NavLink
@@ -205,13 +222,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import {onMounted, ref, watch} from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import {Link, useForm} from '@inertiajs/vue3';
 import MenuDriverIcon from "@/Components/Icons/MenuIcons/MenuDriverIcon.vue";
 import MenuUserIcon from "@/Components/Icons/MenuIcons/MenuUserIcon.vue";
 import MenuDashboardIcon from "@/Components/Icons/MenuIcons/MenuDashboardIcon.vue";
@@ -222,8 +239,37 @@ import MenuCompanyIcon from "@/Components/Icons/MenuIcons/MenuCompanyIcon.vue";
 import MenuRunIcon from "@/Components/Icons/MenuIcons/MenuRunIcon.vue";
 import {usePermissions} from "@/Components/Composable/usePermissions.js";
 import {admin, general, superAdmin} from "@/Components/Composable/useTypesOfRoles.js";
+import MenuCityIcon from "@/Components/Icons/MenuIcons/MenuCityIcon.vue";
 
 const showingNavigationDropdown = ref(false);
+
+const sections = ref({});
+
+const form = useForm({
+  name: "",
+  email: "",
+  class_id: "",
+  section_id: "",
+})
+
+watch(
+    () => form.class_id,
+    (newValue) => {
+      getSections();
+    }
+);
+
+onMounted(() => {
+  getSections();
+})
+
+const getSections = () => {
+  axios.get("http://localhost:8000/api/cities").then((response) => {
+    console.log('Ok')
+    console.log(response.data)
+    sections.value = response.data;
+  });
+};
 
 
 </script>

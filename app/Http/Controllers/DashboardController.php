@@ -20,7 +20,7 @@ class DashboardController extends Controller
 
         $driversQuery = Driver::query()
             ->with('user')
-            ->with(['runs' => function ($query) {
+            ->with(['trips' => function ($query) {
                 $query->orderBy('id', 'desc');
             }])
             ->whereHas('user', function ($query) use ($logged_user) {
@@ -36,7 +36,7 @@ class DashboardController extends Controller
 
         $driversAvailable = $driversAvailableQuery
             ->where('online', true)
-            ->orderBy('in_run')
+            ->orderBy('in_trip')
             ->get();
 
         $drivers_offline   = DriverResource::collection($driversOffline);
